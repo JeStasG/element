@@ -49,7 +49,7 @@
         required: false
       },
       hoverBackgroundColor: String,
-      backgroundColor: String,
+      backgroundSubColor: String,
       disabled: {
         type: Boolean,
         required: false
@@ -64,7 +64,7 @@
       },
       backgroundColor() {
         var res = '';
-        if (this.backgroundColor === '') {
+        if (this.backgroundSubColor === '') {
           res = this.rootMenu.backgroundColor || '';
         }
         return res;

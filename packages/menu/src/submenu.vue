@@ -56,7 +56,7 @@
         type: String,
         required: true
       },
-      backgroundColor: String,
+      backgroundSubColor: String,
       hoverBackgroundColor: String
     },
 
@@ -98,7 +98,7 @@
       },
       backgroundColor() {
         var res = '';
-        if (this.backgroundColor === '') {
+        if (this.backgroundSubColor === '') {
           res = this.rootMenu.backgroundColor || '';
         }
         return res;
