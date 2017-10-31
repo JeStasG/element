@@ -128,7 +128,7 @@
     computed: {
       hoverBackground() {
         var res = '';
-        if (this.hoverBackgroundColor === '') {
+        if (!this.hoverBackgroundColor) {
           res = this.backgroundColor ? this.mixColor(this.backgroundColor, 0.2) : '';
         }
         return res;

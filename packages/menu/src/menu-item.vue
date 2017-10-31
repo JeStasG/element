@@ -64,7 +64,7 @@
       },
       backgroundColor() {
         var res = '';
-        if (this.backgroundSubColor === '') {
+        if (!this.backgroundSubColor) {
           res = this.rootMenu.backgroundColor || '';
         }
         return res;
