@@ -63,11 +63,7 @@
         return this.hoverBackgroundColor ? this.hoverBackgroundColor : this.rootMenu.hoverBackground;
       },
       backgroundColor() {
-        var res = '';
-        if (!this.backgroundSubColor) {
-          res = this.rootMenu.backgroundColor || '';
-        }
-        return res;
+        return this.backgroundSubColor || (this.rootMenu.backgroundColor || '');
       },
       activeTextColor() {
         return this.rootMenu.activeTextColor || '';
