@@ -55,7 +55,9 @@
       index: {
         type: String,
         required: true
-      }
+      },
+      backgroundColor: String,
+      hoverBackgroundColor: String
     },
 
     data() {
@@ -92,10 +94,14 @@
         return isActive;
       },
       hoverBackground() {
-        return this.rootMenu.hoverBackground;
+        return this.hoverBackgroundColor ? this.hoverBackgroundColor : this.rootMenu.hoverBackground;
       },
       backgroundColor() {
-        return this.rootMenu.backgroundColor || '';
+        var res = '';
+        if (this.backgroundColor === '') {
+          res = this.rootMenu.backgroundColor || '';
+        }
+        return res;
       },
       activeTextColor() {
         return this.rootMenu.activeTextColor || '';

@@ -113,6 +113,7 @@
       },
       collapse: Boolean,
       backgroundColor: String,
+      hoverBackgroundColor: String,
       textColor: String,
       activeTextColor: String
     },
@@ -126,7 +127,11 @@
     },
     computed: {
       hoverBackground() {
-        return this.backgroundColor ? this.mixColor(this.backgroundColor, 0.2) : '';
+        var res = '';
+        if (this.hoverBackgroundColor === '') {
+          res = this.backgroundColor ? this.mixColor(this.backgroundColor, 0.2) : '';
+        }
+        return res;
       }
     },
     watch: {

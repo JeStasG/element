@@ -48,6 +48,8 @@
         type: Object,
         required: false
       },
+      hoverBackgroundColor: String,
+      backgroundColor: String,
       disabled: {
         type: Boolean,
         required: false
@@ -58,10 +60,14 @@
         return this.index === this.rootMenu.activeIndex;
       },
       hoverBackground() {
-        return this.rootMenu.hoverBackground;
+        return this.hoverBackgroundColor ? this.hoverBackgroundColor : this.rootMenu.hoverBackground;
       },
       backgroundColor() {
-        return this.rootMenu.backgroundColor || '';
+        var res = '';
+        if (this.backgroundColor === '') {
+          res = this.rootMenu.backgroundColor || '';
+        }
+        return res;
       },
       activeTextColor() {
         return this.rootMenu.activeTextColor || '';
