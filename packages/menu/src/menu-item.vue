@@ -50,7 +50,6 @@
       },
       hoverBackgroundColor: String,
       backgroundSubColor: String,
-      activeSubTextColor: String,
       disabled: {
         type: Boolean,
         required: false
@@ -67,7 +66,7 @@
         return this.backgroundSubColor || (this.rootMenu.backgroundColor || '');
       },
       activeTextColor() {
-        return this.activeSubTextColor || (this.rootMenu.activeTextColor || '');
+        return this.rootMenu.activeTextColor || '';
       },
       textColor() {
         return this.rootMenu.textColor || '';
