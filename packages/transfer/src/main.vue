@@ -79,6 +79,8 @@
         type: String,
         default: ''
       },
+      minQueryLength: Number,
+      filterFunction: Function,
       filterMethod: Function,
       leftDefaultChecked: {
         type: Array,

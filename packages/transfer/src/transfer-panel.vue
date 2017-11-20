@@ -97,11 +97,13 @@
           return [];
         }
       },
+      minQueryLength: Number,
       renderContent: Function,
       placeholder: String,
       title: String,
       filterable: Boolean,
       format: Object,
+      filterFunction: Function,
       filterMethod: Function,
       defaultChecked: Array,
       props: Object
@@ -117,6 +119,11 @@
     },
 
     watch: {
+      query: function(val) {
+        if (val.length > this.minQueryLength && typeof this.filterFunction === 'function') {
+          this.filterFunction(val);
+        }
+      },
       checked(val) {
         this.updateAllChecked();
         this.$emit('checked-change', val);
@@ -157,15 +164,17 @@
     computed: {
       filteredData() {
         return this.data.filter(item => {
-          if (typeof this.filterMethod === 'function') {
+          if (typeof this.filterMethod === 'function' && typeof this.filterFunction !== 'function') {
             return this.filterMethod(this.query, item);
+          } else if (this.minQueryLength > 0 && this.query.length <= this.minQueryLength && typeof this.filterFunction === 'function') {
+            const label = item[this.labelProp] || item[this.keyProp].toString();
+            return label.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
           } else {
             const label = item[this.labelProp] || item[this.keyProp].toString();
             return label.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
           }
         });
       },
-
       checkableData() {
         return this.filteredData.filter(item => !item[this.disabledProp]);
       },
