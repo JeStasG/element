@@ -32,6 +32,7 @@
 <script>
   import AsyncValidator from 'async-validator';
   import emitter from 'element-ui/src/mixins/emitter';
+  import objectAssign from 'element-ui/src/utils/merge';
   import { noop, getPropByPath } from 'element-ui/src/utils/util';
 
   export default {
@@ -53,7 +54,10 @@
       label: String,
       labelWidth: String,
       prop: String,
-      required: Boolean,
+      required: {
+        type: Boolean,
+        default: undefined
+      },
       rules: [Object, Array],
       error: String,
       validateStatus: String,
@@ -165,7 +169,7 @@
       validate(trigger, callback = noop) {
         this.validateDisabled = false;
         var rules = this.getFilteredRule(trigger);
-        if ((!rules || rules.length === 0) && !this._props.hasOwnProperty('required')) {
+        if ((!rules || rules.length === 0) && this.required === undefined) {
           callback();
           return true;
         }
@@ -173,6 +177,11 @@
         this.validateState = 'validating';
 
         var descriptor = {};
+        if (rules && rules.length > 0) {
+          rules.forEach(rule => {
+            delete rule.trigger;
+          });
+        }
         descriptor[this.prop] = rules;
 
         var validator = new AsyncValidator(descriptor);
@@ -216,9 +225,9 @@
       getRules() {
         var formRules = this.form.rules;
         var selfRules = this.rules;
-        var requiredRule = this._props.hasOwnProperty('required') ? { required: !!this.required } : [];
+        var requiredRule = this.required !== undefined ? { required: !!this.required } : [];
 
-        formRules = formRules ? formRules[this.prop] : [];
+        formRules = formRules ? getPropByPath(formRules, this.prop || '').v : [];
 
         return [].concat(selfRules || formRules || []).concat(requiredRule);
       },
@@ -227,7 +236,7 @@
 
         return rules.filter(rule => {
           return !rule.trigger || rule.trigger.indexOf(trigger) !== -1;
-        });
+        }).map(rule => objectAssign({}, rule));
       },
       onFieldBlur() {
         this.validate('blur');
@@ -255,7 +264,7 @@
 
         let rules = this.getRules();
 
-        if (rules.length || this._props.hasOwnProperty('required')) {
+        if (rules.length || this.required !== undefined) {
           this.$on('el.form.blur', this.onFieldBlur);
           this.$on('el.form.change', this.onFieldChange);
         }
