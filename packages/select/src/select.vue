@@ -11,8 +11,8 @@
       :style="{ 'max-width': inputWidth - 32 + 'px' }">
       <span v-if="collapseTags && selected.length">
         <el-tag
-          :closable="!disabled"
-          size="small"
+          :closable="!selectDisabled"
+          :size="collapseTagSize"
           :hit="selected[0].hitState"
           type="info"
           @close="deleteTag($event, selected[0])"
@@ -22,7 +22,7 @@
         <el-tag
           v-if="selected.length > 1"
           :closable="false"
-          size="small"
+          :size="collapseTagSize"
           type="info"
           disable-transitions>
           <span class="el-select__tags-text">+ {{ selected.length - 1 }}</span>
@@ -32,8 +32,8 @@
         <el-tag
           v-for="item in selected"
           :key="getValueKey(item)"
-          :closable="!disabled"
-          size="small"
+          :closable="!selectDisabled"
+          :size="collapseTagSize"
           :hit="item.hitState"
           type="info"
           @close="deleteTag($event, item)"
@@ -46,7 +46,8 @@
         type="text"
         class="el-select__input"
         :class="[selectSize ? `is-${ selectSize }` : '']"
-        :disabled="disabled"
+        :disabled="selectDisabled"
+        :autocomplete="autoComplete"
         @focus="handleFocus"
         @click.stop
         @keyup="managePlaceholder"
@@ -70,8 +71,9 @@
       :placeholder="currentPlaceholder"
       :name="name"
       :id="id"
+      :auto-complete="autoComplete"
       :size="selectSize"
-      :disabled="disabled"
+      :disabled="selectDisabled"
       :readonly="!filterable || multiple"
       :validate-event="false"
       :class="{ 'is-focus': visible }"
@@ -98,6 +100,7 @@
       @after-leave="doDestroy">
       <el-select-menu
         ref="popper"
+        :append-to-body="popperAppendToBody"
         v-show="visible && emptyText !== false">
         <el-scrollbar
           tag="ul"
@@ -152,6 +155,10 @@
     componentName: 'ElSelect',
 
     inject: {
+      elForm: {
+        default: ''
+      },
+
       elFormItem: {
         default: ''
       }
@@ -169,7 +176,7 @@
       },
       iconClass() {
         let criteria = this.clearable &&
-          !this.disabled &&
+          !this.selectDisabled &&
           this.inputHovering &&
           !this.multiple &&
           this.value !== undefined &&
@@ -204,6 +211,16 @@
 
       selectSize() {
         return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+      },
+
+      selectDisabled() {
+        return this.disabled || (this.elForm || {}).disabled;
+      },
+
+      collapseTagSize() {
+        return ['small', 'mini'].indexOf(this.selectSize) > -1
+          ? 'mini'
+          : 'small';
       }
     },
 
@@ -222,6 +239,10 @@
       id: String,
       value: {
         required: true
+      },
+      autoComplete: {
+        type: String,
+        default: 'off'
       },
       size: String,
       disabled: Boolean,
@@ -253,7 +274,11 @@
         type: String,
         default: 'value'
       },
-      collapseTags: Boolean
+      collapseTags: Boolean,
+      popperAppendToBody: {
+        type: Boolean,
+        default: true
+      }
     },
 
     data() {
@@ -272,14 +297,14 @@
         selectedLabel: '',
         hoverIndex: -1,
         query: '',
-        previousQuery: '',
+        previousQuery: null,
         inputHovering: false,
         currentPlaceholder: ''
       };
     },
 
     watch: {
-      disabled() {
+      selectDisabled() {
         this.$nextTick(() => {
           this.resetInputHeight();
         });
@@ -317,6 +342,7 @@
             this.$refs.input.blur();
           }
           this.query = '';
+          this.previousQuery = null;
           this.selectedLabel = '';
           this.inputLength = 20;
           this.resetHoverIndex();
@@ -376,6 +402,10 @@
     methods: {
       handleQueryChange(val) {
         if (this.previousQuery === val) return;
+        if (this.previousQuery === null && typeof this.filterMethod === 'function') {
+          this.previousQuery = val;
+          return;
+        }
         this.previousQuery = val;
         this.$nextTick(() => {
           if (this.visible) this.broadcast('ElSelectDropdown', 'updatePopper');
@@ -558,15 +588,19 @@
       },
 
       resetInputHeight() {
-        if (this.collapseTags) return;
+        if (this.collapseTags && !this.filterable) return;
         this.$nextTick(() => {
           if (!this.$refs.reference) return;
           let inputChildNodes = this.$refs.reference.$el.childNodes;
           let input = [].filter.call(inputChildNodes, item => item.tagName === 'INPUT')[0];
           const tags = this.$refs.tags;
+          const sizeInMap = sizeMap[this.selectSize] || 40;
           input.style.height = this.selected.length === 0
-            ? (sizeMap[this.selectSize] || 40) + 'px'
-            : Math.max(tags ? (tags.clientHeight + 10) : 0, sizeMap[this.selectSize] || 40) + 'px';
+            ? sizeInMap + 'px'
+            : Math.max(
+              tags ? (tags.clientHeight + (tags.clientHeight > sizeInMap ? 6 : 0)) : 0,
+              sizeInMap
+            ) + 'px';
           if (this.visible && this.emptyText !== false) {
             this.broadcast('ElSelectDropdown', 'updatePopper');
           }
@@ -631,7 +665,7 @@
       },
 
       toggleMenu() {
-        if (!this.disabled) {
+        if (!this.selectDisabled) {
           this.visible = !this.visible;
           if (this.visible) {
             (this.$refs.input || this.$refs.reference).focus();
@@ -655,12 +689,12 @@
 
       deleteTag(event, tag) {
         let index = this.selected.indexOf(tag);
-        if (index > -1 && !this.disabled) {
+        if (index > -1 && !this.selectDisabled) {
           const value = this.value.slice();
           value.splice(index, 1);
           this.$emit('input', value);
           this.emitChange(value);
-          this.$emit('remove-tag', tag);
+          this.$emit('remove-tag', tag.value);
         }
         event.stopPropagation();
       },
@@ -691,16 +725,26 @@
 
       checkDefaultFirstOption() {
         this.hoverIndex = -1;
+        // highlight the created option
+        let hasCreated = false;
+        for (let i = this.options.length - 1; i >= 0; i--) {
+          if (this.options[i].created) {
+            hasCreated = true;
+            this.hoverIndex = i;
+            break;
+          }
+        }
+        if (hasCreated) return;
         for (let i = 0; i !== this.options.length; ++i) {
           const option = this.options[i];
           if (this.query) {
-            // pick first options that passes the filter
+            // highlight first options that passes the filter
             if (!option.disabled && !option.groupDisabled && option.visible) {
               this.hoverIndex = i;
               break;
             }
           } else {
-            // pick currently selected option
+            // highlight currently selected option
             if (option.itemSelected) {
               this.hoverIndex = i;
               break;
