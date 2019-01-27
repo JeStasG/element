@@ -3338,10 +3338,6 @@ escodegen@^1.6.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-elemefe@*:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-elemefe/-/eslint-config-elemefe-0.3.0.tgz#6f06cd6a8c6949bf58fa7fe2d4b4a4fde89bf008"
-
 eslint-config-elemefe@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/eslint-config-elemefe/-/eslint-config-elemefe-0.1.1.tgz#5a1664ce3f7d91f68528b508d040044ae6c10aa3"
