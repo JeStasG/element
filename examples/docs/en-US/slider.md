@@ -228,12 +228,14 @@ Selecting a range of values is supported.
 ## Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
+| value / v-model | binding value | number | — | 0 |
 | min | minimum value | number | — | 0 |
 | max | maximum value | number | — | 100 |
 | disabled | whether Slider is disabled | boolean | — | false |
 | step | step size | number | — | 1 |
 | show-input | whether to display an input box, works when `range` is false | boolean | — | false |
 | show-input-controls | whether to display control buttons when `show-input` is true | boolean | — | true |
+| input-size | size of the input box | string | large / medium / small / mini | small |
 | show-stops | whether to display breakpoints | boolean | — | false |
 | show-tooltip | whether to display tooltip value | boolean | — | true |
 | format-tooltip | format to display tooltip value | function(value) | — | — |
@@ -241,7 +243,8 @@ Selecting a range of values is supported.
 | vertical | vertical mode | boolean | — | false |
 | height | Slider height, required in vertical mode | string | — | — |
 | label | label for screen reader | string | — | — |
-|debounce| debounce delay when typing, in milliseconds, works when `show-input` is true | number | — | 300 |
+| debounce | debounce delay when typing, in milliseconds, works when `show-input` is true | number | — | 300 |
+| tooltip-class | custom class name for the tooltip | string | — | — |
 
 ## Events
 | Event Name | Description | Parameters |

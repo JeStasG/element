@@ -662,15 +662,17 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 ### Select Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
+| value / v-model | binding value | boolean / string / number | — | — |
 | multiple | whether multiple-select is activated | boolean | — | false |
 | disabled | whether Select is disabled | boolean | — | false |
 | value-key | unique identity key name for value, required when value is an object | string | — | value |
 | size | size of Input | string | large/small/mini | — |
-| clearable | whether single select can be cleared | boolean | — | false |
+| clearable | whether select can be cleared | boolean | — | false |
 | collapse-tags | whether to collapse tags to a text when multiple selecting | boolean | — | false |
 | multiple-limit | maximum number of options user can select when `multiple` is `true`. No limit when set to 0 | number | — | 0 |
 | name | the name attribute of select input | string | — | — |
-| auto-complete | the autocomplete attribute of select input | string | — | off |
+| autocomplete | the autocomplete attribute of select input | string | — | off |
+| auto-complete | @DEPRECATED in next major version | string | — | off |
 | placeholder | placeholder | string | — | Select |
 | filterable | whether Select is filterable | boolean | — | false |
 | allow-create | whether creating new items is allowed. To use this, `filterable` must be true | boolean | — | false |
@@ -685,6 +687,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | reserve-keyword | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option | boolean | — | false |
 | default-first-option | select first matching option on enter key. Use with `filterable` or `remote` | boolean | - | false |
 | popper-append-to-body| whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | - | true |
+| automatic-dropdown | for non-filterable Select, this prop decides if the option menu pops up when the input is focused | boolean | - | false |
 
 ### Select Events
 | Event Name | Description | Parameters |
@@ -695,6 +698,12 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | clear | triggers when the clear icon is clicked in a clearable Select | — |
 | blur | triggers when Input blurs | (event: Event) |
 | focus | triggers when Input focuses | (event: Event) |
+
+### Select Slots
+| Name    | Description |
+|---------|-------------|
+|    —    | Option component list |
+| prefix  | content as Select prefix |
 
 ### Option Group Attributes
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
@@ -713,3 +722,4 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | Method | Description | Parameters |
 |------|--------|-------|
 | focus | focus the Input component | - |
+| blur | blur the Input component, and hide the dropdown | - |

@@ -66,7 +66,8 @@
         value10: '',
         value11: '',
         value12: '',
-        value13: []
+        value13: '',
+        value14: ''
       };
     }
   };
@@ -76,6 +77,7 @@
   .demo-block.demo-date-picker .source {
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
   }
 
   .demo-date-picker .block {
@@ -83,6 +85,20 @@
     text-align: center;
     border-right: solid 1px #EFF2F6;
     flex: 1;
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .demo-date-picker .container {
+    flex: 1;
+    border-right: solid 1px #EFF2F6;
+    .block {
+      border-right: none;
+      &:last-child {
+        border-top: solid 1px #EFF2F6;
+      }
+    }
     &:last-child {
       border-right: none;
     }
@@ -167,35 +183,46 @@
 
 ###  其他日期单位
 
-通过扩展基础的日期选择，可以选择周、月、年
+通过扩展基础的日期选择，可以选择周、月、年或多个日期
 
 :::demo
 ```html
-<div class="block">
-  <span class="demonstration">周</span>
-  <el-date-picker
-    v-model="value3"
-    type="week"
-    format="yyyy 第 WW 周"
-    placeholder="选择周">
-  </el-date-picker>
+<div class="container">
+  <div class="block">
+    <span class="demonstration">周</span>
+    <el-date-picker
+      v-model="value3"
+      type="week"
+      format="yyyy 第 WW 周"
+      placeholder="选择周">
+    </el-date-picker>
+  </div>
+  <div class="block">
+    <span class="demonstration">月</span>
+    <el-date-picker
+      v-model="value4"
+      type="month"
+      placeholder="选择月">
+    </el-date-picker>
+  </div>
 </div>
-<div class="block">
-  <span class="demonstration">月</span>
-  <el-date-picker
-    v-model="value4"
-    type="month"
-    placeholder="选择月">
-  </el-date-picker>
-</div>
-<div class="block">
-  <span class="demonstration">年</span>
-  <el-date-picker
-    v-model="value5"
-    align="right"
-    type="year"
-    placeholder="选择年">
-  </el-date-picker>
+<div class="container">
+  <div class="block">
+    <span class="demonstration">年</span>
+    <el-date-picker
+      v-model="value5"
+      type="year"
+      placeholder="选择年">
+    </el-date-picker>
+  </div>
+  <div class="block">
+    <span class="demonstration">多个日期</span>
+    <el-date-picker
+      type="dates"
+      v-model="value14"
+      placeholder="选择一个或多个日期">
+    </el-date-picker>
+  </div>
 </div>
 
 <script>
@@ -204,7 +231,8 @@
       return {
         value3: '',
         value4: '',
-        value5: ''
+        value5: '',
+        value14: ''
       };
     }
   };
@@ -212,7 +240,7 @@
 ```
 :::
 
-###  选择日期范围
+### 选择日期范围
 
 可在一个选择器中便捷地选择一个时间范围
 
@@ -389,7 +417,7 @@
   export default {
     data() {
       return {
-        value13: []
+        value13: ''
       };
     }
   };
@@ -400,6 +428,7 @@
 ### Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |
 |---------- |-------------- |---------- |--------------------------------  |-------- |
+| value / v-model | 绑定值 | date(DatePicker) / array(DateRangePicker) | — | — |
 | readonly | 完全只读 | boolean | — | false |
 | disabled | 禁用 | boolean | — | false |
 | editable | 文本框可输入 | boolean | — | true |
@@ -408,7 +437,7 @@
 | placeholder | 非范围选择时的占位内容 | string | — | — |
 | start-placeholder | 范围选择时开始日期的占位内容 | string | — | — |
 | end-placeholder | 范围选择时结束日期的占位内容 | string | — | — |
-| type | 显示类型 | string | year/month/date/week/ datetime/datetimerange/daterange | date |
+| type | 显示类型 | string | year/month/date/dates/ week/datetime/datetimerange/daterange | date |
 | format | 显示在输入框中的格式 | string | 见[日期格式](#/zh-CN/component/date-picker#ri-qi-ge-shi) | yyyy-MM-dd |
 | align | 对齐方式 | string | left, center, right | left |
 | popper-class | DatePicker 下拉框的类名 | string | — | — |
@@ -421,6 +450,7 @@
 | unlink-panels | 在范围选择器里取消两个日期面板之间的联动 | boolean | — | false |
 | prefix-icon | 自定义头部图标的类名 | string | — | el-icon-date |
 | clear-icon | 自定义清空图标的类名 | string | — | el-icon-circle-close |
+| validate-event | 输入时是否触发表单的校验 | boolean | - | true |
 
 ### Picker Options
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |

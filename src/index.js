@@ -145,14 +145,16 @@ const install = function(Vue, opts = {}) {
   locale.use(opts.locale);
   locale.i18n(opts.i18n);
 
-  components.map(component => {
+  components.forEach(component => {
     Vue.component(component.name, component);
   });
 
   Vue.use(Loading.directive);
 
-  const ELEMENT = {};
-  ELEMENT.size = opts.size || '';
+  Vue.prototype.$ELEMENT = {
+    size: opts.size || '',
+    zIndex: opts.zIndex || 2000
+  };
 
   Vue.prototype.$loading = Loading.service;
   Vue.prototype.$msgbox = MessageBox;
@@ -162,7 +164,6 @@ const install = function(Vue, opts = {}) {
   Vue.prototype.$notify = Notification;
   Vue.prototype.$message = Message;
 
-  Vue.prototype.$ELEMENT = ELEMENT;
 };
 
 /* istanbul ignore if */
@@ -170,8 +171,8 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
 }
 
-module.exports = {
-  version: '2.2.0',
+export default {
+  version: '2.5.1',
   locale: locale.use,
   i18n: locale.i18n,
   install,
@@ -246,5 +247,3 @@ module.exports = {
   Main,
   Footer
 };
-
-module.exports.default = module.exports;

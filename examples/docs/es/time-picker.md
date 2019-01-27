@@ -173,6 +173,7 @@ Es posible escoger un rango de tiempo arbitrario.
 ### Atributos
 | Atributo          | Descripción                              | Tipo                                     | Valores aceptados                        | Por defecto          |
 | ----------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------- |
+| value / v-model    | valor enlazado                           | date(TimePicker) / string(TimeSelect)    | -                                        | -                    |
 | readonly          | si el Time Picker está en modo de sólo lectura | boolean                                  | —                                        | false                |
 | disabled          | si el Time Picker se encuentra deshabilitado | boolean                                  | —                                        | false                |
 | editable          | si el input puede ser editado            | boolean                                  | —                                        | true                 |
@@ -183,7 +184,6 @@ Es posible escoger un rango de tiempo arbitrario.
 | end-placeholder   | placeholder para el tiempo de finalización en modo de rango | string                                   | —                                        | —                    |
 | is-range          | si es posible escoger un rango de tiempo, solo funciona con `<el-time-picker>` | boolean                                  | —                                        | false                |
 | arrow-control     | si es posible escoger el tiempo usando los botones de flecha, solo funciona con `<el-time-picker>` | boolean                                  | —                                        | false                |
-| value             | valor del selector                       | Fecha para Selector de Tiempo, string para el Seleccionador de Tiempo | hour `HH`, minute `mm`, second `ss`      | HH:mm:ss             |
 | align             | alineación                               | left / center / right                    | left                                     |                      |
 | popper-class      | nombre de clase personalizada para el dropdown del Time Picker | string                                   | —                                        | —                    |
 | picker-options    | opciones adicionales, revisar la tabla posterior | object                                   | —                                        | {}                   |
@@ -216,3 +216,8 @@ Es posible escoger un rango de tiempo arbitrario.
 | change           | se lanza cuando el usuario confirma el valor | valor vinculado del componente |
 | blur             | se lanza cuando el input se difumina     | instancia del componente       |
 | focus            | se lanza cuando el input se enfoca       | instancia del componente       |
+
+### Metodos
+| Metodo | Descripción                | Parameteros |
+| ------ | -------------------------- | ----------- |
+| focus  | coloca el foco en el input | —           |

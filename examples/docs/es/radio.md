@@ -24,7 +24,7 @@ Selección única entre múltiples opciones.
 ### Uso básico
 El elemento Radio no debe tener muchas opciones. De otra manera, utilice el componente Select.
 
-:::Demo Crear un elemento Radio es fácil, solo necesita enlazar(`bind`) una variable a la directiva `v-model` del Radio. Va a ser igual al valor `label` del Radio seleccionado. El tipo de dato de `label` es `String`, `Number` o `Boolean`.
+:::demo Crear un elemento Radio es fácil, solo necesita enlazar(`bind`) una variable a la directiva `v-model` del Radio. Va a ser igual al valor `label` del Radio seleccionado. El tipo de dato de `label` es `String`, `Number` o `Boolean`.
 ```html
 <template>
   <el-radio v-model="radio" label="1">Option A</el-radio>
@@ -193,6 +193,7 @@ Radio con estilo de botón.
 
 | Atributo | Descripción                              | Tipo                      | Valores Aceptado      | Por defecto |
 | -------- | ---------------------------------------- | ------------------------- | --------------------- | ----------- |
+| value / v-model | valor enlazado | string / number / boolean | — | — |
 | label    | el valor del Radio                       | string / number / boolean | —                     | —           |
 | disabled | si el Radio está deshabilitado           | boolean                   | —                     | false       |
 | border   | agregar borde alrededor del elemento Radio | boolean                   | —                     | false       |
@@ -211,6 +212,7 @@ Radio con estilo de botón.
 
 | Atributo   | Descripción                              | Tipo    | Valores Aceptado      | Valores por defecto |
 | ---------- | ---------------------------------------- | ------- | --------------------- | ------------------- |
+| value / v-model | valor enlazado | string / number / boolean | — | — |
 | size       | tamaño de los `radio buttons` o `bordered radios` | string  | medium / small / mini | —                   |
 | disabled   | si la anidación de radios está desahabilitada | boolean | —                     | false               |
 | text-color | color de las letras cuando el botón está activo | string  | —                     | #ffffff             |

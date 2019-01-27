@@ -82,10 +82,13 @@
               return vm;
             }
           };
-          const parent = getParent(this);
-          return parent.renderContent
-            ? parent.renderContent(h, this.option)
-            : <span>{ this.option[parent.labelProp] || this.option[parent.keyProp] }</span>;
+          const panel = getParent(this);
+          const transfer = panel.$parent || panel;
+          return panel.renderContent
+            ? panel.renderContent(h, this.option)
+            : transfer.$scopedSlots.default
+              ? transfer.$scopedSlots.default({ option: this.option })
+              : <span>{ this.option[panel.labelProp] || this.option[panel.keyProp] }</span>;
         }
       }
     },
@@ -114,7 +117,8 @@
         checked: [],
         allChecked: false,
         query: '',
-        inputHover: false
+        inputHover: false,
+        checkChangeByUser: true
       };
     },
 
@@ -124,9 +128,16 @@
           this.filterFunction(val);
         }
       },
-      checked(val) {
+      checked(val, oldVal) {
         this.updateAllChecked();
-        this.$emit('checked-change', val);
+        if (this.checkChangeByUser) {
+          const movedKeys = val.concat(oldVal)
+            .filter(v => val.indexOf(v) === -1 || oldVal.indexOf(v) === -1);
+          this.$emit('checked-change', val, movedKeys);
+        } else {
+          this.$emit('checked-change', val);
+          this.checkChangeByUser = true;
+        }
       },
 
       data() {
@@ -137,6 +148,7 @@
             checked.push(item);
           }
         });
+        this.checkChangeByUser = false;
         this.checked = checked;
       },
 
@@ -156,6 +168,7 @@
               checked.push(item);
             }
           });
+          this.checkChangeByUser = false;
           this.checked = checked;
         }
       }

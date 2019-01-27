@@ -117,7 +117,18 @@ export default {
       this.$el.setAttribute('tabindex', 0);
       on(this.referenceElm, 'mouseenter', this.show);
       on(this.referenceElm, 'mouseleave', this.hide);
-      on(this.referenceElm, 'focus', this.handleFocus);
+      on(this.referenceElm, 'focus', () => {
+        if (!this.$slots.default || !this.$slots.default.length) {
+          this.handleFocus();
+          return;
+        }
+        const instance = this.$slots.default[0].componentInstance;
+        if (instance && instance.focus) {
+          instance.focus();
+        } else {
+          this.handleFocus();
+        }
+      });
       on(this.referenceElm, 'blur', this.handleBlur);
       on(this.referenceElm, 'click', this.removeFocusing);
     }
@@ -180,6 +191,10 @@ export default {
         clearTimeout(this.timeoutPending);
       }
       this.showPopper = false;
+
+      if (this.disabled) {
+        this.doDestroy();
+      }
     },
 
     setExpectedState(expectedState) {
@@ -188,6 +203,10 @@ export default {
       }
       this.expectedState = expectedState;
     }
+  },
+
+  beforeDestroy() {
+    this.popperVM && this.popperVM.$destroy();
   },
 
   destroyed() {

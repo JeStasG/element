@@ -1,11 +1,12 @@
 <template>
-  <div class="el-slider"
+  <div
+    class="el-slider"
     :class="{ 'is-vertical': vertical, 'el-slider--with-input': showInput }"
-     role="slider"
-     :aria-valuemin="min"
-     :aria-valuemax="max"
-     :aria-orientation="vertical ? 'vertical': 'horizontal'"
-     :aria-disabled="sliderDisabled"
+    role="slider"
+    :aria-valuemin="min"
+    :aria-valuemax="max"
+    :aria-orientation="vertical ? 'vertical': 'horizontal'"
+    :aria-disabled="sliderDisabled"
   >
     <el-input-number
       v-model="firstValue"
@@ -19,9 +20,10 @@
       :min="min"
       :max="max"
       :debounce="debounce"
-      size="small">
+      :size="inputSize">
     </el-input-number>
-    <div class="el-slider__runway"
+    <div
+      class="el-slider__runway"
       :class="{ 'show-input': showInput, 'disabled': sliderDisabled }"
       :style="runwayStyle"
       @click="onSliderClick"
@@ -33,17 +35,20 @@
       <slider-button
         :vertical="vertical"
         v-model="firstValue"
+        :tooltip-class="tooltipClass"
         ref="button1">
       </slider-button>
       <slider-button
         :vertical="vertical"
         v-model="secondValue"
+        :tooltip-class="tooltipClass"
         ref="button2"
         v-if="range">
       </slider-button>
       <div
         class="el-slider__stop"
-        v-for="item in stops"
+        v-for="(item, key) in stops"
+        :key="key"
         :style="vertical ? { 'bottom': item + '%' } : { 'left': item + '%' }"
         v-if="showStops">
       </div>
@@ -92,6 +97,10 @@
         type: Boolean,
         default: true
       },
+      inputSize: {
+        type: String,
+        default: 'small'
+      },
       showStops: {
         type: Boolean,
         default: false
@@ -122,7 +131,8 @@
       },
       label: {
         type: String
-      }
+      },
+      tooltipClass: String
     },
 
     components: {
@@ -190,6 +200,10 @@
         }
       },
       setValues() {
+        if (this.min > this.max) {
+          console.error('[Element Error][Slider]min should not be greater than max.');
+          return;
+        }
         const val = this.value;
         if (this.range && Array.isArray(val)) {
           if (val[1] < this.min) {
@@ -266,7 +280,7 @@
 
     computed: {
       stops() {
-        if (!this.showStops) return [];
+        if (!this.showStops || this.min > this.max) return [];
         if (this.step === 0) {
           process.env.NODE_ENV !== 'production' &&
           console.warn('[Element Warn][Slider]step should not be 0.');

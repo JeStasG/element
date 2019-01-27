@@ -230,12 +230,14 @@ Se soporta la selección de un rango de valores.
 ## Atributos
 | Atributo            | Descripción                              | Tipo            | Valores aceptados | Por defecto |
 | ------------------- | ---------------------------------------- | --------------- | ----------------- | ----------- |
+| value / v-model      | valor enlazado                           | number          | —                 | 0           |
 | min                 | valor minimo                             | number          | —                 | 0           |
 | max                 | valor máximo                             | number          | —                 | 100         |
 | disabled            | si el Slider esta deshabitado            | boolean         | —                 | false       |
 | step                | tamaño del paso                          | number          | —                 | 1           |
 | show-input          | Si se muestra el input, trabaja cuando`range`es false | boolean         | —                 | false       |
 | show-input-controls | si se muestran los botones de control cuando`show-input`es true | boolean         | —                 | true        |
+| input-size          | tamaño del input   | string           | large / medium / small / mini | small |
 | show-stops          | si se muestran los puntos de ruptura (breakpoints) | boolean         | —                 | false       |
 | show-tooltip        | si se muestra el valor en un tooltip     | boolean         | —                 | true        |
 | format-tooltip      | formato para mostrar el valor del tooltip | function(value) | —                 | —           |
@@ -244,6 +246,7 @@ Se soporta la selección de un rango de valores.
 | height              | alto del Slider, requerido en modo vertical | string          | —                 | —           |
 | label               | etiqueta para screen reader              | string          | —                 | —           |
 | debounce            | retardo al escribir, en milisegundos, funciona cuando`show-input` es true. | number          | —                 | 300         |
+| tooltip-class       | nombre personalizado de clase para el tooltip | string | — | — |
 
 ## Eventos
 | Nombre | Descripción                              | Parametros               |

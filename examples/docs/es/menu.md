@@ -308,11 +308,12 @@ NavMenu vertical puede ser colapsado.
 | default-active    | índice del menu-item activo              | string  | —                     | —           |
 | default-openeds   | arreglo que contiene las llaves del sub-menus activo | Array   | —                     | —           |
 | unique-opened     | si solo un submenu puede ser activo      | boolean | —                     | false       |
-| menu-trigger      | como dispara eventos sub-menus, solo funciona cuando `mode` es 'horizontal' | string  | —                     | hover       |
+| menu-trigger      | como dispara eventos sub-menus, solo funciona cuando `mode` es 'horizontal' | string  | hover / click      | hover   |
 | router            | si el modo `vue-router` está activado. Si es verdader, índice será usado como 'path' para activar la ruta | boolean | —                     | false       |
+| collapse-transition  | si se debe permitir collapse transition | boolean   | — | true   |
 
 ### Métodos Menu 
-| Nombre de evento | Descripción                   | Parámetros                             |
+| Métodos de evento | Descripción                   | Parámetros                             |
 | ---------------- | ----------------------------- | -------------------------------------- |
 | open             | abre un sub-menu específico   | index: índice del sub-menu para abrir  |
 | close            | cierra un sub-menu específico | index: índice del sub-menu para cerrar |
@@ -337,6 +338,7 @@ NavMenu vertical puede ser colapsado.
 | show-timeout | tiempo de espera antes de mostrar un submenú | number | —                 | 300         |
 | hide-timeout | tiempo de espera antes de ocultar un submenú | number | —                 | 300         |
 | disabled | si esta `disabled` el sub-menu | boolean | — | false |
+| popper-append-to-body | si se debe agregar el menú emergente al cuerpo. Si la posición del menú es incorrecta, puede intentar ajustar este prop | boolean | - | level one Submenu: true / other Submenus: false |
 
 ### Atributos Menu-Item 
 | Atributo | Descripción         | Tipo   | Valores aceptados | Por defecto |
