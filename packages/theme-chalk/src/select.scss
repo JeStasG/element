@@ -11,7 +11,7 @@
 @include b(select) {
   display: inline-block;
   position: relative;
-
+  
   .el-select__tags
     >span {
       display: contents;
@@ -21,6 +21,11 @@
     .el-input__inner {
       border-color: $--select-border-color-hover;
     }
+  }
+
+  .el-select-collapse-min-tag-closer{
+    cursor: pointer;
+    background-color: #d0dbec;
   }
 
   .el-input__inner {

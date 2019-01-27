@@ -29,16 +29,26 @@
         </el-tag>
       </span>
       <transition-group @after-leave="resetInputHeight" v-if="!collapseTags">
+        <template v-for="(item, index) in selected">
+          <el-tag
+            v-if="index < collapseMinCount || !collapseMinFlag ||!collapseMin"
+            :key="getValueKey(item)"
+            :closable="!selectDisabled"
+            :size="collapseTagSize"
+            :hit="item.hitState"
+            type="info"
+            @close="deleteTag($event, item)"
+            disable-transitions>
+            <span class="el-select__tags-text">{{ item.currentLabel }}</span>
+          </el-tag>
+        </template>
         <el-tag
-          v-for="item in selected"
-          :key="getValueKey(item)"
-          :closable="!selectDisabled"
+          v-if="collapseMinFlag && selected.length > collapseMinCount"
+          class="el-select-collapse-min-tag-closer"
           :size="collapseTagSize"
-          :hit="item.hitState"
-          type="info"
-          @close="deleteTag($event, item)"
-          disable-transitions>
-          <span class="el-select__tags-text">{{ item.currentLabel }}</span>
+          key="tag-closer"
+          @click="collapseMinHandler">
+          <span class="el-select__tags-text">{{ collapseMinText }}</span>
         </el-tag>
       </transition-group>
 
@@ -179,6 +189,11 @@
         return (this.elFormItem || {}).elFormItemSize;
       },
 
+      collapseMinText(){
+        //return this.collapseMin ? this.t('el.select.allТagsExpand') + ' ' + this.selected.length + ' ...': this.t('el.select.allTagsClose') + ' ' + this.collapseMinCount;
+        return this.collapseMin ? ' Показать все ' + this.selected.length : 'Показать первые ' + this.collapseMinCount;
+      },
+
       readonly() {
         return !this.filterable || this.multiple || (!isIE() && !isEdge() && !this.visible);
       },
@@ -249,6 +264,14 @@
     directives: { Clickoutside },
 
     props: {
+      collapseMinFlag: {
+        type: Boolean,
+        default: () => false
+      },
+      collapseMinCount: {
+        type: Number,
+        default: () => 20
+      },
       name: String,
       id: String,
       value: {
@@ -307,6 +330,7 @@
 
     data() {
       return {
+        collapseMin: true,
         options: [],
         cachedOptions: [],
         createdLabel: null,
@@ -433,6 +457,12 @@
     },
 
     methods: {
+      collapseMinHandler(){
+        this.collapseMin = !this.collapseMin;
+        this.$nextTick(() => {
+          this.resetInputHeight();
+        });
+      },
       handleComposition(event) {
         const text = event.target.value;
         if (event.type === 'compositionend') {
