@@ -14,6 +14,9 @@
         :id="tooltipId"
         :aria-hidden="(disabled || !showPopper) ? 'true' : 'false'"
       >
+        <div class="el-popover-closer" @click="closeIconClick">
+          <i class="el-popover-closer-icon" :class="iconclose"></i>
+        </div>
         <div class="el-popover__title" v-if="title" v-text="title"></div>
         <slot>{{ content }}</slot>
       </div>
@@ -33,6 +36,10 @@ export default {
   mixins: [Popper],
 
   props: {
+    iconclose: {
+      type: String,
+      default: () => 'el-icon-close'
+    },
     trigger: {
       type: String,
       default: 'click',
@@ -132,6 +139,9 @@ export default {
   },
 
   methods: {
+    closeIconClick(){
+      this.doClose();
+    },
     doToggle() {
       this.showPopper = !this.showPopper;
     },
