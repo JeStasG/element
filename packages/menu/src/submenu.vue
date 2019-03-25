@@ -179,8 +179,16 @@
         }
         this.dispatch('ElMenu', 'submenu-click', this);
       },
-      handleMouseenter() {
-        const {rootMenu} = this;
+// <<<<<<< HEAD
+//       handleMouseenter() {
+//         const {rootMenu} = this;
+// =======
+      handleMouseenter(event) {
+        if (!('ActiveXObject' in window) && event.type === 'focus' && !event.relatedTarget) {
+          return;
+        }
+        const { rootMenu, disabled } = this;
+// >>>>>>> be187a99ccfacb8d3a8d24e0f61b91fe5378138f
         if (
           (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal') ||
           (!rootMenu.collapse && rootMenu.mode === 'vertical')

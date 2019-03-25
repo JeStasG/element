@@ -267,15 +267,26 @@
         }
       },
       handleItemClick(item) {
-        let { index, indexPath } = item;
-        this.activeIndex = item.index;
+// <<<<<<< HEAD
+        // let { index, indexPath } = item;
+        // this.activeIndex = item.index;
+// =======
+        const { index, indexPath } = item;
+        const oldActiveIndex = this.activeIndex;
+        const hasIndex = item.index !== null;
+
+        if (hasIndex) {
+          this.activeIndex = item.index;
+        }
+
+// >>>>>>> be187a99ccfacb8d3a8d24e0f61b91fe5378138f
         this.$emit('select', index, indexPath, item);
 
         if (this.mode === 'horizontal' || this.collapse) {
           this.openedMenus = [];
         }
 
-        if (this.router) {
+        if (this.router && hasIndex) {
           this.routeToItem(item, (error) => {
             this.activeIndex = oldActiveIndex;
             if (error) console.error(error);
