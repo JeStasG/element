@@ -42,7 +42,10 @@
   }
   .el-popover-closer{
     position: absolute;
-    right: 4px;
-    top: 4px;
+    right: 2px;
+    top: 2px;
+  }
+  .el-popover{
+    padding-top: 20px !important;
   }
 }
