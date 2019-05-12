@@ -151,16 +151,25 @@
       }
     },
     watch: {
-      defaultActive(value) {
-        const item = this.items[value];
-        if (item) {
-          this.activeIndex = item.index;
-          this.initOpenedMenu();
-        } else {
-          this.activeIndex = '';
+// <<<<<<< HEAD
+//       defaultActive(value) {
+//         const item = this.items[value];
+//         if (item) {
+//           this.activeIndex = item.index;
+//           this.initOpenedMenu();
+//         } else {
+//           this.activeIndex = '';
+//         }
+//=======
+      defaultActive(value){
+        if(!this.items[value]){
+          this.activeIndex = null
         }
-
+        this.updateActiveIndex(value)
       },
+//>>>>>>> v2.8.2
+
+      //},
       defaultOpeneds(value) {
         if (!this.collapse) {
           this.openedMenus = value;

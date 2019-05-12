@@ -179,11 +179,16 @@
         }
         this.dispatch('ElMenu', 'submenu-click', this);
       },
+//<<<<<<< HEAD
 // <<<<<<< HEAD
 //       handleMouseenter() {
 //         const {rootMenu} = this;
 // =======
-      handleMouseenter(event) {
+//       handleMouseenter(event) {
+// =======
+      handleMouseenter(event, showTimeout = this.showTimeout) {
+
+//>>>>>>> v2.8.2
         if (!('ActiveXObject' in window) && event.type === 'focus' && !event.relatedTarget) {
           return;
         }
@@ -199,7 +204,11 @@
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.rootMenu.openMenu(this.index, this.indexPath);
-        }, 300);
+//<<<<<<< HEAD
+//        }, 300);
+//=======
+        }, showTimeout);
+//>>>>>>> v2.8.2
       },
       handleMouseleave() {
         const {rootMenu} = this;
@@ -282,9 +291,9 @@
             ref="menu"
             v-show={opened}
             class={[`el-menu--${mode}`, popperClass]}
-            on-mouseenter={this.handleMouseenter}
+            on-mouseenter={($event) => this.handleMouseenter($event, 100)}
             on-mouseleave={this.handleMouseleave}
-            on-focus={this.handleMouseenter}>
+            on-focus={($event) => this.handleMouseenter($event, 100)}>
             <ul
               role="menu"
               class={['el-menu el-menu--popup', `el-menu--popup-${currentPlacement}`]}
