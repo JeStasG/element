@@ -332,15 +332,15 @@ export default {
       ];
 
       return _self.showOverflowTooltip || _self.showTooltipWhenOverflow
-//<<<<<< HEAD
+      // <<<<<< HEAD
         // ? <div class="cell el-tooltip" style={ {width: (data.column.realWidth || data.column.width) - 2 + 'px'} }>{ renderCell(h, data) }</div>
         // : <div class="cell">{ renderCell(h, data) }</div>;
-//=======
+      // =======
         ? <div class="cell el-tooltip" style={ {width: (data.column.realWidth || data.column.width) - 1 + 'px'} }>{ children }</div>
         : (<div class="cell">
           { children }
         </div>);
-//>>>>>>> v2.8.2
+      // >>>>>>> v2.8.2
     };
   },
 
