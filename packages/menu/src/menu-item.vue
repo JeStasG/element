@@ -19,7 +19,7 @@
       v-model="openRight"
       @blur="resetLeft">
       <div @click="handleMiddleClick">
-        Открыть в новой вкладке
+        Открыть
       </div>
     </el-popover>
     <el-tooltip
