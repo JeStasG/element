@@ -69,7 +69,8 @@ export default {
     cascader: {
       noMatch: 'No matching data',
       loading: 'Loading',
-      placeholder: 'Select'
+      placeholder: 'Select',
+      noData: 'No data'
     },
     pagination: {
       goto: 'Go to',
@@ -109,6 +110,13 @@ export default {
     },
     image: {
       error: 'FAILED'
+    },
+    pageHeader: {
+      title: 'Back' // to be translated
+    },
+    popconfirm: {
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
     }
   }
 };

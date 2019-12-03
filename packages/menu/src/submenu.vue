@@ -179,21 +179,11 @@
         }
         this.dispatch('ElMenu', 'submenu-click', this);
       },
-//<<<<<<< HEAD
-// <<<<<<< HEAD
-//       handleMouseenter() {
-//         const {rootMenu} = this;
-// =======
-//       handleMouseenter(event) {
-// =======
       handleMouseenter(event, showTimeout = this.showTimeout) {
-
-//>>>>>>> v2.8.2
         if (!('ActiveXObject' in window) && event.type === 'focus' && !event.relatedTarget) {
           return;
         }
         const { rootMenu, disabled } = this;
-// >>>>>>> be187a99ccfacb8d3a8d24e0f61b91fe5378138f
         if (
           (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal') ||
           (!rootMenu.collapse && rootMenu.mode === 'vertical')
@@ -204,13 +194,13 @@
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
           this.rootMenu.openMenu(this.index, this.indexPath);
-//<<<<<<< HEAD
-//        }, 300);
-//=======
         }, showTimeout);
-//>>>>>>> v2.8.2
+
+        if (this.appendToBody) {
+          this.$parent.$el.dispatchEvent(new MouseEvent('mouseenter'));
+        }
       },
-      handleMouseleave() {
+      handleMouseleave(deepDispatch = false) {
         const {rootMenu} = this;
         if (
           (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal') ||
@@ -226,6 +216,12 @@
         //}, 300);
           !this.mouseInChild && this.rootMenu.closeMenu(this.index);
         }, this.hideTimeout);
+
+        if (this.appendToBody && deepDispatch) {
+          if (this.$parent.$options.name === 'ElSubmenu') {
+            this.$parent.handleMouseleave(true);
+          }
+        }
       },
       handleTitleMouseenter() {
         if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
@@ -292,7 +288,7 @@
             v-show={opened}
             class={[`el-menu--${mode}`, popperClass]}
             on-mouseenter={($event) => this.handleMouseenter($event, 100)}
-            on-mouseleave={this.handleMouseleave}
+            on-mouseleave={() => this.handleMouseleave(true)}
             on-focus={($event) => this.handleMouseenter($event, 100)}>
             <ul
               role="menu"
@@ -333,7 +329,7 @@
           aria-haspopup="true"
           aria-expanded={opened}
           on-mouseenter={this.handleMouseenter}
-          on-mouseleave={this.handleMouseleave}
+          on-mouseleave={() => this.handleMouseleave(false)}
           on-focus={this.handleMouseenter}
         >
           <div

@@ -69,7 +69,8 @@ export default {
     cascader: {
       noMatch: 'Совпадений не найдено',
       loading: 'Загрузка',
-      placeholder: 'Выбрать'
+      placeholder: 'Выбрать',
+      noData: 'Нет данных'
     },
     pagination: {
       goto: 'Перейти',
@@ -109,6 +110,13 @@ export default {
     },
     image: {
       error: 'FAILED' // to be translated
+    },
+    pageHeader: {
+      title: 'Back' // to be translated
+    },
+    popconfirm: {
+      confirmButtonText: 'Yes', // to be translated
+      cancelButtonText: 'No' // to be translated
     }
   }
 };
