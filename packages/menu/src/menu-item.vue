@@ -15,13 +15,6 @@
     role="menuitem"
     tabindex="-1"
   >
-    <el-popover
-      v-model="openRight"
-      @blur="resetLeft">
-      <div @click="handleMiddleClick">
-        Открыть в новой вкладке
-      </div>
-    </el-popover>
     <el-tooltip
       v-if="parentMenu.$options.componentName === 'ElMenu' && rootMenu.collapse && $slots.title"
       effect="dark"
@@ -52,12 +45,6 @@
     mixins: [Menu, Emitter],
 
     components: { ElTooltip },
-
-    data(){
-      return {
-        openRight: false
-      };
-    },
 
     props: {
       index: {
@@ -111,9 +98,6 @@
       }
     },
     methods: {
-      resetLeft(){
-        this.openRight = false;
-      },
       onMouseEnter() {
         if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
         this.$el.style.backgroundColor = this.hoverBackground;
@@ -121,15 +105,12 @@
       onMouseLeave() {
         if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
         this.$el.style.backgroundColor = this.backgroundColor;
-        this.openRight = false;
       },
       handleMiddleClick(){
         if (this.index) window.open(this.index, '_blank');
-        this.openRight = false;
       },
       handleRightClick(e){
         e.preventDefault();
-        this.openRight = true;
       },
       handleClick(e) {
         if (!this.disabled) {
