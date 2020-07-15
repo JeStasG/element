@@ -159,3 +159,118 @@
       transform: rotate(360deg);
   }
 }
+
+.hwc-loading-mask{
+  background-color:rgb(4,16,68);
+  opacity: 0.85;
+}
+.hwc-loader-spinner{
+  margin: auto;
+}
+.hwc-loader-spinner h1{
+  font-family: 'Roboto', sans-serif;
+  color:#FFF;
+  font-size:14px;
+  letter-spacing:1px;
+  font-weight:400;
+  text-align:center;
+}
+.hwc-loader-spinner span{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  display:inline-block;
+  position:absolute;
+  left:50%;
+  margin-left:-10px;
+  -webkit-animation:3s infinite linear;
+  -moz-animation:3s infinite linear;
+  -o-animation:3s infinite linear;
+
+}
+
+
+.hwc-loader-spinner span:nth-child(2){
+  background:#a9ccc6;
+  -webkit-animation:kiri 1.5s infinite linear;
+  -moz-animation:kiri 1.5s infinite linear;
+  -o-animation:kiri 1.5s infinite linear;
+
+}
+.hwc-loader-spinner span:nth-child(3){
+  background:#e26869;
+  z-index:100;
+}
+.hwc-loader-spinner span:nth-child(4){
+  background:#36466d;
+  -webkit-animation:kanan 1.5s infinite linear;
+  -moz-animation:kanan 1.5s infinite linear;
+  -o-animation:kanan 1.5s infinite linear;
+}
+
+
+@-webkit-keyframes kanan {
+  0% {-webkit-transform:translateX(20px);
+  }
+
+  50%{-webkit-transform:translateX(-20px);
+  }
+
+  100%{-webkit-transform:translateX(20px);
+    z-index:200;
+  }
+}
+@-moz-keyframes kanan {
+  0% {-moz-transform:translateX(20px);
+  }
+
+  50%{-moz-transform:translateX(-20px);
+  }
+
+  100%{-moz-transform:translateX(20px);
+    z-index:200;
+  }
+}
+@-o-keyframes kanan {
+  0% {-o-transform:translateX(20px);
+  }
+
+  50%{-o-transform:translateX(-20px);
+  }
+
+  100%{-o-transform:translateX(20px);
+    z-index:200;
+  }
+}
+
+
+
+
+@-webkit-keyframes kiri {
+  0% {-webkit-transform:translateX(-20px);
+    z-index:200;
+  }
+  50%{-webkit-transform:translateX(20px);
+  }
+  100%{-webkit-transform:translateX(-20px);
+  }
+}
+
+@-moz-keyframes kiri {
+  0% {-moz-transform:translateX(-20px);
+    z-index:200;
+  }
+  50%{-moz-transform:translateX(20px);
+  }
+  100%{-moz-transform:translateX(-20px);
+  }
+}
+@-o-keyframes kiri {
+  0% {-o-transform:translateX(-20px);
+    z-index:200;
+  }
+  50%{-o-transform:translateX(20px);
+  }
+  100%{-o-transform:translateX(-20px);
+  }
+}
