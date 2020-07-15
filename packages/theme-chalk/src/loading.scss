@@ -161,8 +161,9 @@
 }
 
 .hwc-loading-mask{
-  background-color:rgb(4,16,68) !important;
-  opacity: 0.85;
+  //background-color:rgb(4,16,68) !important;
+  //opacity: 0.85;
+  background: radial-gradient(circle, rgba(4,16,68,.85) 0%, rgba(255,255,255,0.85) 100%);
 }
 .hwc-loader-spinner{
   margin: auto;
