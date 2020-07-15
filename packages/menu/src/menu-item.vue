@@ -6,8 +6,6 @@
     @focus="onMouseEnter"
     @blur="onMouseLeave"
     @mouseleave="onMouseLeave"
-    @click.right="handleRightClick"
-    @click.middle="handleMiddleClick"
     :class="{
       'is-active': active,
       'is-disabled': disabled
@@ -15,20 +13,11 @@
     role="menuitem"
     tabindex="-1"
   >
-    <el-popover
-      v-model="openRight"
-      @blur="resetLeft">
-      <div @click="handleMiddleClick">
-        Открыть
-      </div>
-    </el-popover>
     <el-tooltip
       v-if="parentMenu.$options.componentName === 'ElMenu' && rootMenu.collapse && $slots.title"
       effect="dark"
       placement="right">
-      <div slot="content">
-        <slot name="title"></slot>
-      </div>
+      <div slot="content"><slot name="title"></slot></div>
       <div style="position: absolute;left: 0;top: 0;height: 100%;width: 100%;display: inline-block;box-sizing: border-box;padding: 0 20px;">
         <slot></slot>
       </div>
@@ -52,12 +41,6 @@
     mixins: [Menu, Emitter],
 
     components: { ElTooltip },
-
-    data(){
-      return {
-        openRight: false
-      };
-    },
 
     props: {
       index: {
@@ -111,9 +94,6 @@
       }
     },
     methods: {
-      resetLeft(){
-        this.openRight = false;
-      },
       onMouseEnter() {
         if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
         this.$el.style.backgroundColor = this.hoverBackground;
@@ -121,17 +101,8 @@
       onMouseLeave() {
         if (this.mode === 'horizontal' && !this.rootMenu.backgroundColor) return;
         this.$el.style.backgroundColor = this.backgroundColor;
-        this.openRight = false;
       },
-      handleMiddleClick(){
-        if (this.index) window.open(this.index, '_blank');
-        this.openRight = false;
-      },
-      handleRightClick(e){
-        e.preventDefault();
-        this.openRight = true;
-      },
-      handleClick(e) {
+      handleClick() {
         if (!this.disabled) {
           this.dispatch('ElMenu', 'item-click', this);
           this.$emit('click', this);
