@@ -163,14 +163,14 @@
 .hwc-loading-mask{
   //background-color:rgb(4,16,68) !important;
   //opacity: 0.85;
-  background: radial-gradient(circle, rgba(4,16,68,.85) 0%, rgba(255,255,255,0) 100%);
+  background: radial-gradient(circle, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 100%);
 }
 .hwc-loader-spinner{
   margin: auto;
 }
 .hwc-loader-spinner h1{
   font-family: 'Roboto', sans-serif;
-  color:#FFF;
+  //color:#FFF;
   font-size:14px;
   letter-spacing:1px;
   font-weight:400;
